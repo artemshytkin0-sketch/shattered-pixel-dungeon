@@ -18,7 +18,7 @@ jobs:
           java-version: '21'
 
       - name: Build iOS IPA
-        run: chmod +x gradlew && ./gradlew ios:createIPA
+        run: chmod +x gradlew && ./gradlew ios:createIPA --info
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
