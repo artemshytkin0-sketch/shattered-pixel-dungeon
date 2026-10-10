@@ -1,0 +1,22 @@
+name: Check iOS build environment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Show Java version
+        run: java -version
+
+      - name: Check project files
+        run: |
+          ls -la
+          find . -maxdepth 3 -iname '*ios*'
