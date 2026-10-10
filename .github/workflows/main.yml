@@ -1,22 +1,28 @@
-name: Check iOS build environment
+name: Build Shattered Pixel Dungeon iOS
 
 on:
   workflow_dispatch:
 
 jobs:
-  check:
+  build:
     runs-on: macos-latest
+
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show Xcode version
-        run: xcodebuild -version
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
 
-      - name: Show Java version
-        run: java -version
+      - name: Build iOS IPA
+        run: chmod +x gradlew && ./gradlew ios:createIPA
 
-      - name: Check project files
-        run: |
-          ls -la
-          find . -maxdepth 3 -iname '*ios*'
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: shattered-pixel-dungeon-ios
+          path: ios/build/robovm/*.ipa
+          if-no-files-found: warn
